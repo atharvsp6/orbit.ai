@@ -156,17 +156,17 @@ export default function App() {
     return () => clearInterval(timer)
   }, [])
 
-  // Check Intent Service Health
+  // Check Command Service Health
   const checkHealth = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/health`)
+      const res = await fetch(`${API_BASE_URL}/status`)
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data: HealthResponse = await res.json()
       setHealth(data)
       setHealthError(null)
     } catch (err: any) {
       setHealth(null)
-      setHealthError(err.message || 'Cannot connect to intent service')
+      setHealthError(err.message || 'Cannot connect to command service')
     }
   }
 

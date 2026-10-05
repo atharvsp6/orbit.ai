@@ -125,6 +125,7 @@ def get_root():
     }
 
 
+@app.get("/status")
 @app.get("/health")
 def get_service_health():
     """
