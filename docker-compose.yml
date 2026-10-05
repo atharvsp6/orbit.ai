@@ -1,0 +1,44 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: orbit-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+
+  health-service:
+    build:
+      context: ./health-service
+      dockerfile: Dockerfile
+    container_name: orbit-health-service
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+
+  priority-service:
+    build:
+      context: ./priority-service
+      dockerfile: Dockerfile
+    container_name: orbit-priority-service
+    restart: unless-stopped
+    ports:
+      - "8002:8002"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:8000
+        VITE_HEALTH_API_URL: http://localhost:8001
+        VITE_PRIORITY_API_URL: http://localhost:8002
+    container_name: orbit-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+      - health-service
+      - priority-service

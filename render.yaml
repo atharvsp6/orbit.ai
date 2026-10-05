@@ -1,0 +1,36 @@
+services:
+  # Microservice 1: Intent Recognition (Bi-LSTM)
+  - type: web
+    name: orbit-intent-service
+    env: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && pip install --no-cache-dir -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # Microservice 2: Satellite Health Monitoring
+  - type: web
+    name: orbit-health-service
+    env: python
+    rootDir: health-service
+    plan: free
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+
+  # Microservice 3: Command Priority Engine
+  - type: web
+    name: orbit-priority-service
+    env: python
+    rootDir: priority-service
+    plan: free
+    buildCommand: pip install --no-cache-dir -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
