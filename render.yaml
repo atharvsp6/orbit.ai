@@ -1,7 +1,7 @@
 services:
   # Microservice 1: Intent Recognition (Bi-LSTM)
   - type: web
-    name: orbit-intent-service
+    name: orbit-command-service
     env: python
     rootDir: backend
     plan: free
